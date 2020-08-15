@@ -13,14 +13,10 @@
 const char* SSID_ = "ROBO_IITG_2.4G";
 const char* PASSWORD = "iamthefuture";
 
-
-
-
-
+//UNIQUE BOT ID
 int BOT_NUM=4;
 
 String FILE_ADRESS="http://192.168.0.46:8080/data.txt";
-
 
 int SPEED_LEFT;
 int SPEED_RIGHT;
@@ -33,7 +29,6 @@ String Fx1,Fy1,Fx2,Fy2,Fx3,Fy3,Fx4,Fy4;
 
 int Xself,Yself,Aself,F_X_self,F_Y_self;
    
-
 int distance,calculated_angle;
 
 double CM_PER_PIXEL=0.35;
@@ -44,8 +39,7 @@ int i=0;
 bool intersection_array[]={0,0,0,0};
 int A[]={0,0,0,0};
 
-
-
+//nodemcu pin arrangements
 int LED = D8;
 int enA = D2; //Left
 int in1 = D3;
@@ -54,6 +48,7 @@ int in3 = D5;
 int in4 = D6;
 int enB = D7; //Right
 
+//to move forward
 void Forward(int motor_side){
   if(motor_side==LEFT){
     digitalWrite(in1, HIGH);
@@ -67,6 +62,7 @@ void Forward(int motor_side){
   }
 }
 
+//to move backwards
 void Backward(int motor_side){
   if(motor_side==LEFT){
     digitalWrite(in1, LOW);
@@ -81,32 +77,29 @@ void Backward(int motor_side){
   }
 }
 
+//to stop
 void Stop(){
- 
     digitalWrite(in2, LOW);
     digitalWrite(in1, LOW);
     digitalWrite(in4, LOW);
     digitalWrite(in3, LOW);
- 
 }
 
+//to rotate Anticlockwise=-1, Clockwise =1;
 void Rotate(int dir){
   if(dir==ANTICLOCKWISE){
-  Backward(LEFT);
-  Forward(RIGHT);
+      Backward(LEFT);
+      Forward(RIGHT);
   }
   if(dir==CLOCKWISE){
-  Backward(RIGHT);
-  Forward(LEFT);
+      Backward(RIGHT);
+      Forward(LEFT);
   }
-  
 }
-
 
 
 void ReadCoordinates(String string_line){
-
-
+   
       x1=string_line.substring(0, string_line.indexOf(','));
       string_line.remove(string_line.indexOf(x1),x1.length()+1);
       y_1=string_line.substring(0, string_line.indexOf(','));
@@ -153,111 +146,71 @@ void ReadCoordinates(String string_line){
       Fx4=string_line.substring(0, string_line.indexOf(','));
       string_line.remove(string_line.indexOf(Fx4),Fx4.length()+1);
       Fy4=string_line;
-      
-
-      
-      //Serial.println(string_line); 
-      
-     
-//      Serial.print("x1:");
-//      Serial.println(x1);
-//      Serial.print("y1:");
-//      Serial.println(y_1);
-//      Serial.print("A1:");
-//      Serial.println(A1);
-//  
-//      
-//      Serial.print("Fx1:");
-//      Serial.println(Fx1);
-//      Serial.print("Fy1:");
-//      Serial.println(Fy1);
-//      
-//      Serial.print("Fx2:");
-//      Serial.println(Fx2);
-//      Serial.print("Fy2:");
-//      Serial.println(Fy2);
-//      
-//      Serial.print("Fx3:");
-//      Serial.println(Fx3);
-//      Serial.print("Fy3:");
-//      Serial.println(Fy3);
-//
-//      Serial.print("Fx4:");
-//      Serial.println(Fx4);
-//      Serial.print("Fy4:");
-//      Serial.println(Fy4);
-// 
-
-
 }
+
+
 int DistanceBetweenCoordinates(int x1, int y1,int x2, int y2){
   return(sqrt((sq(x1-x2))+(sq(y1-y2))));
   
 }
 
-
-
-
 double CalculateAngleOfFinal(int v1,int v2,int h1,int h2){
   //v1:Ycurrent,v2:Ygoal,h1:X current;h2:X goal
   //will calculate angle of straight line wrt. horizontal between initial and final point
-  //in anticlock with range 0-360
-
-double rad=atan2((v2-v1),(h2-h1));
-
-int theta=(rad*180)/3.14;
-
-if(theta>=0){
-return(360-theta);
-}
-if(theta<0){
-return(theta*(-1));
-}
+  //in anticlockwise sense with range 0-360
+   double rad=atan2((v2-v1),(h2-h1));
+   int theta=(rad*180)/3.14;
+   if(theta>=0){
+      return(360-theta);
+   }
+   if(theta<0){
+      return(theta*(-1));
+   }
 }
 
+//assigning coordinates to bot og given id
 void AssignBotCoord(int BOT_NUMBER){
   
   if(BOT_NUMBER==1){
-    Xself=x1.toInt();
-    Yself=y_1.toInt();
-    Aself=A1.toInt();
-    F_X_self= Fx1.toInt();
-    F_Y_self= Fy1.toInt();
+    Xself   =  x1.toInt();
+    Yself   =  y_1.toInt();
+    Aself   =  A1.toInt();
+    F_X_self=  Fx1.toInt();
+    F_Y_self=  Fy1.toInt();
    
     
   }
   if(BOT_NUMBER==2){
-    Xself=x2.toInt();
-    Yself=y2.toInt();
-    Aself=A2.toInt();
-    F_X_self= Fx2.toInt();
-    F_Y_self= Fy2.toInt();
+    Xself   =  x2.toInt();
+    Yself   =  y2.toInt();
+    Aself   =  A2.toInt();
+    F_X_self=  Fx2.toInt();
+    F_Y_self=  Fy2.toInt();
   
   }
   if(BOT_NUMBER==3){
-    Xself=x3.toInt();
-    Yself=y3.toInt();
-    Aself=A3.toInt();
-    F_X_self= Fx3.toInt();
-    F_Y_self= Fy3.toInt();
+    Xself   =  x3.toInt();
+    Yself   =  y3.toInt();
+    Aself   =  A3.toInt();
+    F_X_self=  Fx3.toInt();
+    F_Y_self=  Fy3.toInt();
   
   }
   if(BOT_NUMBER==4){
-    Xself=x4.toInt();
-    Yself=y4.toInt();
-    Aself=A4.toInt();
-    F_X_self= Fx4.toInt();
-    F_Y_self= Fy4.toInt();
+    Xself   =  x4.toInt();
+    Yself   =  y4.toInt();
+    Aself   =  A4.toInt();
+    F_X_self=  Fx4.toInt();
+    F_Y_self=  Fy4.toInt();
     
   }
 }
 
+//in case robots move out of the range of camera resume bot inside the boundary
 int BoundaryCheck(int BOT_NUMBER){
   
   if(BOT_NUMBER==1){
     if(x1.equals("NA")){
-
-
           switch (FLAG_NA) {
               case 1:
                 Backward(LEFT);
@@ -269,7 +222,6 @@ int BoundaryCheck(int BOT_NUMBER){
                   Forward(RIGHT);
                   return(1);
                   break;
-            
                }       
         }
      else {
@@ -342,6 +294,7 @@ int BoundaryCheck(int BOT_NUMBER){
   }
 }
 
+//depends on the motors used
 void AssignBotSpeed(int BOT_NUMBER){
   
   if(BOT_NUMBER==1){
@@ -369,15 +322,16 @@ void AssignBotSpeed(int BOT_NUMBER){
   }
 }
 
+//check intersection between two bots
 int  IsIntersect(int x_1,int y_1,int x_2,int y_2){
-
   double distance=DistanceBetweenCoordinates(x_1,y_1,x_2,y_2);
   if(distance<2*(RADIUS_IN_CM/CM_PER_PIXEL))
   return(1);
   else
-  return(0);
-  
+  return(0); 
 }
+
+//update intersection array
 void  FindAllIntersection(int BOT_Number){
 
   if(BOT_Number==1){
@@ -400,14 +354,12 @@ void  FindAllIntersection(int BOT_Number){
        intersection_array[1]=IsIntersect(Xself,Yself,x2.toInt(),y2.toInt());
        intersection_array[2]=IsIntersect(Xself,Yself,x3.toInt(),y3.toInt());
        
-       }
-
-       
-  
+       } 
 }
 
+
 void setup() {
- Serial.begin(115200);
+  Serial.begin(115200);
   WiFi.begin(SSID_, PASSWORD);
   Serial.print("Connecting..");
   while (WiFi.status() != WL_CONNECTED) {
@@ -441,8 +393,7 @@ void loop() {
     http.begin(FILE_ADRESS);
     int httpCode = http.GET();
 
-    if (httpCode > 0) {
-      
+    if (httpCode > 0) { 
        String coordinates = http.getString();
        //Serial.println(coordinates);
        ReadCoordinates(coordinates);
@@ -452,33 +403,24 @@ void loop() {
        A[2]=A3.toInt();
        A[3]=A4.toInt();
        
-//------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
        
-      
-
 //-------------------------------------------------------------------------------
        if(!BoundaryCheck(BOT_NUM)){
-       
-       
-        distance=DistanceBetweenCoordinates(Xself,Yself,F_X_self,F_Y_self);
+         distance = DistanceBetweenCoordinates(Xself,Yself,F_X_self,F_Y_self);
         //Serial.println(distance);
-        calculated_angle=CalculateAngleOfFinal(Yself,F_Y_self,Xself,F_X_self);
+         calculated_angle = CalculateAngleOfFinal(Yself,F_Y_self,Xself,F_X_self);
         //Serial.println(calculated_angle);
        // Serial.println(abs(calculated_angle-A1.toInt()));
-
-       FindAllIntersection(BOT_NUM);
+         FindAllIntersection(BOT_NUM);
         
 //------------------------------------------------------------------------
         if(distance>(TOLERANCE_IN_CM/CM_PER_PIXEL)){
           digitalWrite(LED,LOW);
           FLAG=0;
-          
-          for(i=0;i<4;i++){
-            
+          for(i=0;i<4;i++){  
             if(intersection_array[i]==1)         //i=intersecting bot num-1
-
             {
-
               if(BOT_NUM<i+1)              
               {                              ///if BOT_NUM has Low priority
                  if(abs(Aself-A[i])>170 and abs(Aself-A[i])<190){
@@ -501,58 +443,42 @@ void loop() {
               else{         
                //if high priority then stop
                Stop();
-               FLAG=1;
-             
+               FLAG=1;           
               }
 //====================================================================================================                         
-            }
-
-       
+            }       
           }
             if(FLAG==0)
-
 //----------------------------------------------------------------            
             {
               if(abs(calculated_angle-Aself)>10)
-              {
-                  
+              {   
                   if(calculated_angle-Aself>0){
                   Rotate(ANTICLOCKWISE);
                   }
                   if(calculated_angle-Aself<0){
                   Rotate(CLOCKWISE);
                   }
-              }
-              
-              else{
-                
+              }              
+              else{                
                 Forward(LEFT);
                 Forward(RIGHT);
-                FLAG_NA=1;
-                
-              }
-          
+                FLAG_NA=1;                
+              }         
           }
-//---------------------------------------------------------------------------          
-          
+//---------------------------------------------------------------------------           
         }
         else{
+          //reached to its destination 
           Stop();
           digitalWrite(LED,HIGH);
-          
         }
 
        }
-//------------------------------------------------------------------------        
-
-       
-
-        
+//------------------------------------------------------------------------                
     }
     else{
-      //Serial.print("Couldn't get data from file");   
+      Serial.print("Couldn't get data from file");   
     }
-    
   }  
-
 }
