@@ -12,14 +12,9 @@
 const char* SSID_ = "Redmi";
 const char* PASSWORD = "244466666";
 
-
-
-
-
 int BOT_NUM=3;
 
 String FILE_ADRESS="http://192.168.43.132:8080/data.txt";
-
 
 int SPEED_LEFT;
 int SPEED_RIGHT;
@@ -31,14 +26,11 @@ String Fx1,Fy1,Fx2,Fy2,Fx3,Fy3,Fx4,Fy4;
 
 int Xself,Yself,Aself,F_X_self,F_Y_self;
    
-
 int distance,calculated_angle;
 
 double CM_PER_PIXEL=0.35;
 int RADIUS_IN_CM=14;
 int TOLERANCE_IN_CM=1;
-
-
 
 int LED = D8;
 int enA = D2; //Left
@@ -95,7 +87,6 @@ void Rotate(int dir){
   }
   
 }
-
 
 
 void ReadCoordinates(String string_line){
@@ -188,8 +179,6 @@ int DistanceBetweenCoordinates(int x1, int y1,int x2, int y2){
   return(sqrt((sq(x1-x2))+(sq(y1-y2))));
   
 }
-
-
 
 
 double CalculateAngleOfFinal(int v1,int v2,int h1,int h2){
