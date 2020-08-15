@@ -197,16 +197,16 @@ double CalculateAngleOfFinal(int v1,int v2,int h1,int h2){
   //will calculate angle of straight line wrt. horizontal between initial and final point
   //in anticlock with range 0-360
 
-double rad=atan2((v2-v1),(h2-h1));
+   double rad=atan2((v2-v1),(h2-h1));
 
-int theta=(rad*180)/3.14;
+   int theta=(rad*180)/3.14;
 
-if(theta>=0){
-return(360-theta);
-}
-if(theta<0){
-return(theta*(-1));
-}
+   if(theta>=0){
+      return(360-theta);
+   }
+   if(theta<0){
+      return(theta*(-1));
+   }
 }
 
 void AssignBotCoord(int BOT_NUMBER){
@@ -248,33 +248,26 @@ void AssignBotCoord(int BOT_NUMBER){
 void AssignBotSpeed(int BOT_NUMBER){
   
   if(BOT_NUMBER==1){
-   
     SPEED_LEFT=460;
     SPEED_RIGHT=500;
   }
   if(BOT_NUMBER==2){
     SPEED_LEFT=370;
     SPEED_RIGHT=365;
-    
-
   }
   if(BOT_NUMBER==3){
-
-      SPEED_LEFT=555;
-    SPEED_RIGHT=340;
-    
-
+     SPEED_LEFT=555;
+     SPEED_RIGHT=340;
   }
   if(BOT_NUMBER==4){
-  SPEED_LEFT=430;
-  SPEED_RIGHT=400;
-
+    SPEED_LEFT=430;
+    SPEED_RIGHT=400;
   }
 }
 
 
 void setup() {
- Serial.begin(115200);
+  Serial.begin(115200);
   WiFi.begin(SSID_, PASSWORD);
   Serial.print("Connecting..");
   while (WiFi.status() != WL_CONNECTED) {
@@ -312,11 +305,9 @@ void loop() {
        //Serial.println(coordinates);
        ReadCoordinates(coordinates);
        AssignBotCoord(BOT_NUM);
-       
-       
-        distance=DistanceBetweenCoordinates(Xself,Yself,F_X_self,F_Y_self);
+       distance=DistanceBetweenCoordinates(Xself,Yself,F_X_self,F_Y_self);
         //Serial.println(distance);
-        calculated_angle=CalculateAngleOfFinal(Yself,F_Y_self,Xself,F_X_self);
+       calculated_angle=CalculateAngleOfFinal(Yself,F_Y_self,Xself,F_X_self);
         //Serial.println(calculated_angle);
        // Serial.println(abs(calculated_angle-A1.toInt()));
 
@@ -328,7 +319,6 @@ void loop() {
 
         if(abs(calculated_angle-Aself)>10)
         {
-          
             if(calculated_angle-Aself>0){
             Rotate(ANTICLOCKWISE);
             }
@@ -336,28 +326,17 @@ void loop() {
             Rotate(CLOCKWISE);
             }
         }
-        
         else{
-       
           Forward(LEFT);
-          Forward(RIGHT);
-          
+          Forward(RIGHT); 
         }
-        
         }
-        else{
-          Stop();
-          digitalWrite(LED,HIGH);
-          
+     else{
+        Stop();
+        digitalWrite(LED,HIGH);
         }
 
-//-------------------------------------------------------------------------------------------      
-       
-          
-
-       
-
-        
+//-------------------------------------------------------------------------------------------              
     }
     else{
       //Serial.print("Couldn't get data from file");   
